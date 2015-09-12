@@ -150,7 +150,8 @@
            (test ,result t ,desc
                  :duration ,duration
                  :test-fn (lambda (x y)
-                            (eq (not (null x)) y))))))))
+                            (eq (not (null x)) y))
+                 :got-form ',test))))))
 
 (defmacro is (got expected &rest args)
   (with-gensyms (duration result new-args desc)
@@ -160,7 +161,8 @@
          (with-catching-errors (:description ,desc :expected ,expected)
            (with-duration ((,duration ,result) ,got)
              (test ,result ,expected ,new-args
-                   :duration ,duration)))))))
+                   :duration ,duration
+                   :got-form ',got)))))))
 
 (defmacro isnt (got expected &rest args)
   (with-gensyms (duration result new-args desc)
@@ -171,7 +173,8 @@
            (with-duration ((,duration ,result) ,got)
              (test ,result ,expected ,new-args
                    :notp t
-                   :duration ,duration)))))))
+                   :duration ,duration
+                   :got-form ',got)))))))
 
 (defmacro is-values (got expected &rest args)
   `(is (multiple-value-list ,got) ,expected ,@args))
@@ -224,7 +227,8 @@
            (test ,result ,regex ,desc
                  :duration ,duration
                  :test-fn (lambda (x y) (not (null (ppcre:scan y x))))
-                 :report-expected-label "be like"))))))
+                 :report-expected-label "be like"
+                 :got-form ',got))))))
 
 (defvar *gensym-prefix* "$")
 (defvar *gensym-alist* nil)

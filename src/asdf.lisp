@@ -89,7 +89,6 @@ Example:
   (prove:run #P\"myapp/tests/\")
   (prove:run #P\"myapp/tests/01-main.lisp\")
 "
-  (check-type reporter keyword)
   (flet ((directory-pathname-p (path)
            (string= (file-namestring path) "")))
     (let ((*default-reporter* reporter))

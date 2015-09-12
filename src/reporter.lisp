@@ -37,13 +37,15 @@
 (defclass reporter ()
   ((indent-space :initform 2)))
 
-(defun find-reporter (name)
-  (make-instance
-   (intern (format nil "~:@(~A~)-~A" name #.(string :reporter))
-           (intern (format nil "~A.~:@(~A~)"
-                           #.(string :prove.reporter)
-                           name)
-                   :keyword))))
+(defun find-reporter (reporter-designator)
+  (if (typep reporter-designator 'reporter)
+      reporter-designator
+      (make-instance
+       (intern (format nil "~:@(~A~)-~A" reporter-designator #.(string :reporter))
+               (intern (format nil "~A.~:@(~A~)"
+                               #.(string :prove.reporter)
+                               reporter-designator)
+                       :keyword)))))
 
 (defgeneric format-report (stream reporter report &rest args)
   (:method (stream (reporter null) (report report) &rest args)
